@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+*{
+
+    margin: 0;
+
+    padding: 0;
+
+
+    box-sizing: border-box;
+
+
+}
+
+
+body{
+
+    background-color: #d1411e;
+
+    overflow: hidden;
+
+    font-family: 'Roboto Slab', serif;
+}
+
+
+.wrapper{
+
+    max-width: 505px;
+
+    margin: 135px auto;
+
+    background-color: #fff;
+
+    border-radius: 7px;
+
+    padding: 28px 0;
+}
+
+
+.date{
+
+
+    margin-left: 50px;
+
+    width: 150px;
+
+
+    color: #444;
+}
+
+.task{
+
+
+    display: flex;
+
+    justify-content: space-between;
+}
+
+
+.input-checkout{
+
+
+    color: #d1411e;
+}
+
+
+.task-input{
+
+    margin: 10px;
+    padding: 0 25px;
+
+    position: relative;
+}
+
+.task-input input{
+
+    margin: 5px;
+
+    
+}
+
+.add-btn{
+
+    background-color: #d1411e;
+
+    border: none;
+
+    padding: 10px;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    margin-top: 10px;
+
+    border-radius: 5px;
+}
+
+.task-input input{
+
+    height: 100%;
+
+    width: 100%;
+
+    outline: none;
+
+   
+
+    border-radius: 5px;
+
+    border: 1px solid #999;
+
+    padding: 10px;
+
+
+}
+
+.task-input input::placeholder{
+
+    color: #bfbfbf;
+}
+
+
+.controls, li{
+
+    display: flex;
+
+    justify-content: space-between;
+    
+    align-items: center;
+
+
+}
+
+.controls{
+
+    
+    padding: 18px 25px;
+
+    border-bottom: 1px solid #ccc;
+
+
+}
+
+.filters span{
+
+    cursor: pointer;
+
+    margin: 0 8px;
+
+    font-size: 17px;
+}
+
+
+.filters span.active{
+
+
+    color: #d1411e;
+}
+
+.filters span:first-child{
+
+    margin-left: 0;
+}
+
+.controls .clear-btn{
+
+    outline: none;
+
+    border: none;
+
+    color: #fff;
+
+    background-color: #d1411e;
+
+    border-radius: 4px;
+
+    padding: 7px 13px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.task-box{
+
+    margin: 20px 25px;
+}
+
+.task-box .task{
+
+    list-style: none;
+
+    font-size: 17px;
+
+    margin-bottom: 18px;
+
+    padding-bottom: 16px;
+
+    border-bottom: 1px solid #ccc;
+}
+
+.task-box .task:last-child{
+margin-bottom: 0;
+
+border-bottom: 0;
+
+padding-bottom: 0;
+
+
+
+}
+
+.task label{
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: space-evenly;
+}
+
+.task-card{
+
+    display: flex;
+
+    justify-content: space-evenly;
+
+    align-items: center;
+}
+
+.task label input{
+
+    margin-top: 6px;
+
+    margin-right: 12px;
+}
+
+.task label p.checked{
+
+
+    color: #d1411e;
+
+
+    text-decoration: line-through;
+
+    font-weight: bold;
+
+    animation: inProgress 0.4s ease infinite alternate;
+
+}
+
+
+
+
+@keyframes inProgress{
+    from{
+        opacity: 0;
+        transform: scale(1);
+    }
+    to{
+        opacity:1;
+        transform: scale(1.2);
+    }
+
+
+}
+
+.update{
+
+    border: none;
+
+    background-color: blueviolet;
+    color: #bfbfbf;
+
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+
+
+.task .settings{
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.delete{
+
+    background-color: #d1411e;
+
+    color: #fff;
+
+    padding: 10px;
+
+    border: none;
+
+    cursor: pointer;
+
+    margin-right: 30px;
+    
+}
+
+.settings .task-menu{
+
+    position: absolute;
+
+    display: none;
+
+    padding: 5px 0;
+
+    right: -5px;
+
+    z-index: 3;
+
+    bottom: -65px;
+
+    background: #fff;
+
+
+    transform-origin: top right;
+
+    transition: transform 0.2s ease;
+
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+
+    border-radius: 5px;
+}
+
+
+.settings:hover .task-menu{
+
+    transform: scale(1);
+}
+
+.task-menu li{
+
+    height: 25px;
+
+    font-size: 16px;
+
+    margin-bottom: 2px;
+
+    justify-content: flex-start;
+
+    padding: 17px 15px;
+}
+
+.task-menu li i{
+
+    padding-right: 8px;
+}
+
+.task-menu li:last-child{
+
+    margin-bottom: 0px;
+}
+
+.task-menu li:hover{
+
+    background-color: #f5f5f5;
+}
