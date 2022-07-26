@@ -1,30 +1,45 @@
-const taskTitle = document.querySelector(".title");
 
-const taskdesc = document.querySelector(".description");
+import {Task} from './Task';
 
-const taskDate = document.querySelector(".date");
-const addButton = document.querySelector(".add-btn");
+const taskTitle: Element | any = document.querySelector(".title");
 
-const taskBox = document.querySelector(".task-box");
+const taskdesc : Element | any = document.querySelector(".description");
 
-const clearButton = document.querySelector(".clear-btn");
-const filterPending = document.querySelector(".pending");
+const taskDate: Element | any = document.querySelector(".date");
+const addButton: Element | any  = document.querySelector(".add-btn");
 
-const task_title = document.querySelector(".task-title");
+const taskBox: Element | any = document.querySelector(".task-box");
 
-const filters = document.querySelectorAll(".filters span");
+const clearButton: Element | any = document.querySelector(".clear-btn");
+const filterPending: Element| any = document.querySelector(".pending");
 
-let tasks = JSON.parse(localStorage.getItem("task-list"));
+const task_title: Element | any = document.querySelector(".task-title");
+
+const filters: Element | any = document.querySelectorAll(".filters span");
+
+
+
+let getLocalStorageData: Task[] | null | any = localStorage.getItem("task-list")
+
+let tasks:Task[] | any= JSON.parse(getLocalStorageData);
+
+let activeElement:Element | any = document.querySelector("span.active");
+
+
+
+
 
 filters.forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelector("span.active").classList.remove("active");
+    activeElement.classList.remove("active");
 
     btn.classList.add("active");
 
     showTasks(btn.id);
   });
 });
+
+
 
 function showTasks(filter) {
   let li = "";
@@ -82,7 +97,7 @@ function showTasks(filter) {
     });
   }
 
-  taskBox.innerHTML = li;
+  taskBox.innerHTML  = li;
 }
 
 
@@ -92,7 +107,7 @@ function updateTask(updateId){
 
 
 
-  let tasks = JSON.parse(localStorage.getItem("task-list"));
+  let tasks:Task[] = JSON.parse(getLocalStorageData);
 
 
 
@@ -109,7 +124,7 @@ function updateTask(updateId){
   localStorage.setItem("task-list", JSON.stringify(tasks));
 
 
-  taskTitle.value = "";
+  task_title.value = "";
 
   taskDate.value= "";
 
@@ -135,7 +150,7 @@ function updateTask(updateId){
 
 showTasks("all");
 
-function deleteTask(deleteId) {
+function deleteTask(deleteId:string) {
   tasks.splice(deleteId, 1);
 
   localStorage.setItem("task-list", JSON.stringify(tasks));
@@ -146,7 +161,7 @@ function deleteTask(deleteId) {
 function updateStatus(selectedItem) {
   let taskName = selectedItem.parentElement.lastElementChild;
 
-  const id = selectedItem.id.split("")[0];
+  const id:string = selectedItem.id.split("")[0];
 
   if (selectedItem.checked) {
     taskName.classList.add("checked");
@@ -164,14 +179,14 @@ function updateStatus(selectedItem) {
 addButton.addEventListener("click", () => {
   if (taskTitle.value && taskDate.value && taskdesc.value) {
     filterPending.addEventListener("click", () => {
-      let tasks = JSON.parse(localStorage.getItem("task-list"));
+      let tasks:Task = JSON.parse(getLocalStorageData);
     });
 
     if (!tasks) {
       tasks = [];
     }
 
-    let newTask = {
+    let newTask:Task = {
       title: taskTitle.value,
       desc: taskdesc.value,
       date: taskDate.value,
@@ -182,7 +197,7 @@ addButton.addEventListener("click", () => {
 
     localStorage.setItem("task-list", JSON.stringify(tasks));
 
-    taskTitle.value:string = "";
+    taskTitle.value = "";
 
     taskdesc.value = "";
 
@@ -193,7 +208,7 @@ addButton.addEventListener("click", () => {
 });
 
 clearButton.addEventListener("click", () => {
-  let tasks = JSON.parse(localStorage.getItem("task-list"));
+  let tasks:Task[] = JSON.parse(getLocalStorageData);
 
   if (tasks) {
     tasks = [];
