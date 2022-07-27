@@ -1,4 +1,4 @@
-export interface Task{
+export default interface Task{
 
 
 
@@ -8,8 +8,7 @@ export interface Task{
 
     date: Date; 
 
-    id?: number;
-
+   
     desc:string;
 
     status:string
