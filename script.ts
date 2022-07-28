@@ -166,7 +166,7 @@ class PendingTasks{
       
                     
                     
-                    <input onclick = {this.updateStatus(this)} type="checkbox" id="${id} class="input-checkbox">
+                    <input onclick = "this.updateStatus(this)" type="checkbox" id="${id} class="input-checkbox">
       
                      <p class="${isCompleted}">${task.title}</p>
       
@@ -178,10 +178,10 @@ class PendingTasks{
                  
       
                   
-                    <button class="update" onclick = {this.updateTask(${id})}>Update</button>
+                    <button class="update" onclick = "this.updateTask(${id})" >Update</button>
       
       
-                   <button class="delete" onclick = {this.deleteTask(${id})}>Delete</button>
+                   <button class="delete" onclick = "this.deleteTask(${id})">Delete</button>
       
                     
       
@@ -193,16 +193,20 @@ class PendingTasks{
             `;
             }
           });
-        }
-        
-        else{
 
 
-            taskBox.innerHTML = `<li class="warning">No task is added.</li>`
+         
         }
-      
+
+
         taskBox.innerHTML  = li;
+      
+        
       }
+
+
+
+    
 
 
 
@@ -220,6 +224,76 @@ class completedTask extends PendingTasks{
     }
 
 
+
+    showTasks(filter) {
+      let li = "";
+
+      
+    
+      if (tasks) {
+        tasks.forEach((task, id) => {
+          let isCompleted = task.status == "completed" ? "checked" : "";
+    
+          if (filter == task.status || filter == "all") {
+  
+  
+            li += `
+    
+  
+        
+    
+          <li class="task">
+    
+                  <label for="${id}">
+    
+    
+                  
+                  
+                  <input type="checkbox" id="${id} class="input-checkbox">
+    
+                   <p class="${isCompleted}">${task.title}</p>
+    
+    
+                  
+                  </label>
+    
+    
+                 <button class="delete" onclick = "this.deleteTask(${id})">Delete</button>
+    
+                  
+    
+                  
+    
+                 
+              </li>
+     
+          `;
+          }
+        });
+      }
+      
+      else{
+
+
+          taskBox.innerHTML = `<li class="warning">No task is added.</li>`
+      }
+    
+      taskBox.innerHTML  = li;
+    }
+
+
+    deleteTask(deleteId:any) {
+      tasks.splice(deleteId, 1);
+    
+      localStorage.setItem("task-list", JSON.stringify(tasks));
+    
+      this.showTasks("all");
+    }
+
+
+    
+
+
 }
 
 
@@ -230,6 +304,9 @@ class completedTask extends PendingTasks{
   
 
   const unfinishedTask = new PendingTasks(tasks);
+
+  const finishedTask = new completedTask();
+
 
     addButton.addEventListener("click", () => {
     if (taskTitle.value && taskDate.value && taskdesc.value) {
@@ -293,4 +370,5 @@ class completedTask extends PendingTasks{
     }
   
     unfinishedTask.showTasks("all");
+    finishedTask.showTasks("all");
   });
