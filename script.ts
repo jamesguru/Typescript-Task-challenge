@@ -4,6 +4,9 @@ const taskTitle  = document.querySelector(".title") as HTMLInputElement;
 const taskdesc = document.querySelector(".description") as HTMLInputElement;
 
 const taskDate = document.querySelector(".date") as HTMLDataElement;
+
+const taskDate1 = document.querySelector(".date1") as HTMLDataElement;
+
 const addButton  = document.querySelector(".add-btn") as HTMLButtonElement;
 
 const taskBox = document.querySelector(".task-box") as HTMLElement;
@@ -28,6 +31,8 @@ interface Task{
 
     date: Date; 
 
+    deadline:Date;
+
    
     desc:string;
 
@@ -45,7 +50,7 @@ let activeElement  = document.querySelector("span.active") as HTMLElement;
 
 
 
-class PendingTask{
+class PendingTasks{
 
 
    
@@ -59,72 +64,7 @@ class PendingTask{
     }
 
 
-
-    showTasks(filter) {
-        let li = "";
-      
-        if (tasks) {
-          tasks.forEach((task, id) => {
-            let isCompleted = task.status == "completed" ? "checked" : "";
-      
-            if (filter == task.status || filter == "all") {
-    
-    
-              li += `
-      
-      
-          
-      
-            <li class="task">
-      
-                    <label for="${id}">
-      
-      
-                    
-                    
-                    <input onclick = "this.updateStatus( this)" type="checkbox" id="${id} class="input-checkbox">
-      
-      
-                 
-                    
-      
-      
-                 
-      
-                    <p class="${isCompleted}">${task.title}</p>
-      
-      
-                    
-                    </label>
-      
-      
-                 
-      
-                  
-                    <button class="update" onclick = "this.updateTask(${id})">Update</button>
-      
-      
-                   <button class="delete" onclick = "this.deleteTask(${id})">Delete</button>
-      
-                    
-      
-                    
-      
-                   
-                </li>
-       
-            `;
-            }
-          });
-        }
-      
-        taskBox.innerHTML  = li;
-      }
-
-
-
-
-      updateTask(updateId){
+   updateTask (updateId:string) {
 
 
         let tasks:Task[] = JSON.parse(JSON.parse(localStorage.getItem("task-list") as string));
@@ -138,7 +78,7 @@ class PendingTask{
       
         tasks[updateId].desc = taskdesc.value;
       
-        tasks[updateId].date = taskDate.value as string | any;
+        tasks[updateId].date = taskDate.value ;
       
       
         localStorage.setItem("task-list", JSON.stringify(tasks));
@@ -149,17 +89,24 @@ class PendingTask{
         taskDate.value= "";
       
         taskDate.value= "";
+
+        taskDate1.value = "";
       
       
     }
 
     this.showTasks("all");
+
+    
       
      }
 
 
+    
 
-     deleteTask(deleteId:any) {
+
+
+    deleteTask(deleteId:any) {
         tasks.splice(deleteId, 1);
       
         localStorage.setItem("task-list", JSON.stringify(tasks));
@@ -170,6 +117,11 @@ class PendingTask{
 
 
       updateStatus(selectedItem) {
+
+
+        console.log("updating thiis");
+
+
         let taskName = selectedItem.parentElement.lastElementChild;
       
         const id:string = selectedItem.id.split("")[0];
@@ -187,56 +139,99 @@ class PendingTask{
         localStorage.setItem("task-list", JSON.stringify(tasks));
       }
     
+
+
+
+    showTasks(filter) {
+        let li = "";
+
+        
+      
+        if (tasks) {
+          tasks.forEach((task, id) => {
+            let isCompleted = task.status == "completed" ? "checked" : "";
+      
+            if (filter == task.status || filter == "all") {
     
     
+              li += `
       
     
+          
+      
+            <li class="task">
+      
+                    <label for="${id}">
+      
+      
+                    
+                    
+                    <input onclick = {this.updateStatus(this)} type="checkbox" id="${id} class="input-checkbox">
+      
+                     <p class="${isCompleted}">${task.title}</p>
+      
+      
+                    
+                    </label>
+      
+      
+                 
+      
+                  
+                    <button class="update" onclick = {this.updateTask(${id})}>Update</button>
+      
+      
+                   <button class="delete" onclick = {this.deleteTask(${id})}>Delete</button>
+      
+                    
+      
+                    
+      
+                   
+                </li>
+       
+            `;
+            }
+          });
+        }
+        
+        else{
 
+
+            taskBox.innerHTML = `<li class="warning">No task is added.</li>`
+        }
+      
+        taskBox.innerHTML  = li;
+      }
 
 
 
 }
 
 
-class finishedTask extends PendingTask{
+
+
+class completedTask extends PendingTasks{
 
 
     constructor(){
-    
-            super(tasks)
 
+        super(tasks);
     }
-
-
-
 
 
 }
 
 
 
-const completedTask = new finishedTask();
-
-
-  //filters.forEach((btn) => {
-    //btn.addEventListener("click", () => {
-    //  activeElement.classList.remove("active");
-  
-      //btn.classList.add("active");
-  
-      //showTasks(btn.id);
-   // });
- // });
 
   
 
-  const unfinishedTask = new PendingTask(tasks);
-
-
-
-
   
-  addButton.addEventListener("click", () => {
+
+  const unfinishedTask = new PendingTasks(tasks);
+
+    addButton.addEventListener("click", () => {
     if (taskTitle.value && taskDate.value && taskdesc.value) {
       filterPending.addEventListener("click", () => {
         let tasks:Task[] = JSON.parse(localStorage.getItem("task-list") as string);
@@ -250,7 +245,9 @@ const completedTask = new finishedTask();
         title: taskTitle.value,
         desc: taskdesc.value,
         date: taskDate.value as any,
+        deadline: taskDate1.value as any,
         status: "pending",
+
       };
   
   
@@ -264,13 +261,28 @@ const completedTask = new finishedTask();
       taskdesc.value = "";
   
       taskDate.value = "";
-  
-      unfinishedTask.showTasks("pending");
 
-      completedTask.showTasks("completed");
+      taskDate1.value = "";
+  
+      unfinishedTask.showTasks("all");
+    }else{
+
+
+        taskBox.innerHTML = `<li class="warning">Please make sure you have entered values to proceed.</li>`
     }
   });
   
+
+  filters.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      activeElement.classList.remove("active");
+  
+       btn.classList.add("active");
+  
+       unfinishedTask.showTasks(btn.id);
+     });
+  });
+
   clearButton.addEventListener("click", () => {
     let tasks:Task[] = JSON.parse(localStorage.getItem("task-list") as string);
   
@@ -280,8 +292,5 @@ const completedTask = new finishedTask();
       localStorage.setItem("task-list", JSON.stringify(tasks));
     }
   
-    unfinishedTask.showTasks("pending");
-    completedTask.showTasks("completed");
-
-    
+    unfinishedTask.showTasks("all");
   });
