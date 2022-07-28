@@ -69,12 +69,9 @@ var PendingTasks = /** @class */ (function () {
             tasks.forEach(function (task, id) {
                 var isCompleted = task.status == "completed" ? "checked" : "";
                 if (filter == task.status || filter == "all") {
-                    li += "\n      \n    \n          \n      \n            <li class=\"task\">\n      \n                    <label for=\"".concat(id, "\">\n      \n      \n                    \n                    \n                    <input onclick = {this.updateStatus(this)} type=\"checkbox\" id=\"").concat(id, " class=\"input-checkbox\">\n      \n                     <p class=\"").concat(isCompleted, "\">").concat(task.title, "</p>\n      \n      \n                    \n                    </label>\n      \n      \n                 \n      \n                  \n                    <button class=\"update\" onclick = {this.updateTask(").concat(id, ")}>Update</button>\n      \n      \n                   <button class=\"delete\" onclick = {this.deleteTask(").concat(id, ")}>Delete</button>\n      \n                    \n      \n                    \n      \n                   \n                </li>\n       \n            ");
+                    li += "\n      \n    \n          \n      \n            <li class=\"task\">\n      \n                    <label for=\"".concat(id, "\">\n      \n      \n                    \n                    \n                    <input onclick = \"this.updateStatus(this)\" type=\"checkbox\" id=\"").concat(id, " class=\"input-checkbox\">\n      \n                     <p class=\"").concat(isCompleted, "\">").concat(task.title, "</p>\n      \n      \n                    \n                    </label>\n      \n      \n                 \n      \n                  \n                    <button class=\"update\" onclick = \"this.updateTask(").concat(id, ")\" >Update</button>\n      \n      \n                   <button class=\"delete\" onclick = \"this.deleteTask(").concat(id, ")\">Delete</button>\n      \n                    \n      \n                    \n      \n                   \n                </li>\n       \n            ");
                 }
             });
-        }
-        else {
-            taskBox.innerHTML = "<li class=\"warning\">No task is added.</li>";
         }
         taskBox.innerHTML = li;
     };
@@ -85,9 +82,30 @@ var completedTask = /** @class */ (function (_super) {
     function completedTask() {
         return _super.call(this, tasks) || this;
     }
+    completedTask.prototype.showTasks = function (filter) {
+        var li = "";
+        if (tasks) {
+            tasks.forEach(function (task, id) {
+                var isCompleted = task.status == "completed" ? "checked" : "";
+                if (filter == task.status || filter == "all") {
+                    li += "\n    \n  \n        \n    \n          <li class=\"task\">\n    \n                  <label for=\"".concat(id, "\">\n    \n    \n                  \n                  \n                  <input type=\"checkbox\" id=\"").concat(id, " class=\"input-checkbox\">\n    \n                   <p class=\"").concat(isCompleted, "\">").concat(task.title, "</p>\n    \n    \n                  \n                  </label>\n    \n    \n                 <button class=\"delete\" onclick = \"this.deleteTask(").concat(id, ")\">Delete</button>\n    \n                  \n    \n                  \n    \n                 \n              </li>\n     \n          ");
+                }
+            });
+        }
+        else {
+            taskBox.innerHTML = "<li class=\"warning\">No task is added.</li>";
+        }
+        taskBox.innerHTML = li;
+    };
+    completedTask.prototype.deleteTask = function (deleteId) {
+        tasks.splice(deleteId, 1);
+        localStorage.setItem("task-list", JSON.stringify(tasks));
+        this.showTasks("all");
+    };
     return completedTask;
 }(PendingTasks));
 var unfinishedTask = new PendingTasks(tasks);
+var finishedTask = new completedTask();
 addButton.addEventListener("click", function () {
     if (taskTitle.value && taskDate.value && taskdesc.value) {
         filterPending.addEventListener("click", function () {
@@ -129,4 +147,5 @@ clearButton.addEventListener("click", function () {
         localStorage.setItem("task-list", JSON.stringify(tasks));
     }
     unfinishedTask.showTasks("all");
+    finishedTask.showTasks("all");
 });
