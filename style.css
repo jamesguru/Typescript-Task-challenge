@@ -16,7 +16,7 @@
 
 body{
 
-    background-color: #d1411e;
+    background-color: teal;
 
     overflow: hidden;
 
@@ -69,7 +69,7 @@ body{
 .input-checkout{
 
 
-    color: #d1411e;
+    color: teal;
 }
 
 
@@ -90,7 +90,7 @@ body{
 
 .add-btn{
 
-    background-color: #d1411e;
+    background-color: teal;
 
     border: none;
 
@@ -175,7 +175,7 @@ body{
 .filters span.active{
 
 
-    color: #d1411e;
+    color: teal;
 }
 
 .filters span:first-child{
@@ -191,7 +191,7 @@ body{
 
     color: #fff;
 
-    background-color: #d1411e;
+    background-color: teal;
 
     border-radius: 4px;
 
@@ -262,7 +262,7 @@ padding-bottom: 0;
 .task label p.checked{
 
 
-    color: #d1411e;
+    color: teal;
 
 
     text-decoration: line-through;
@@ -312,7 +312,7 @@ padding-bottom: 0;
 
 .delete{
 
-    background-color: #d1411e;
+    background-color: teal;
 
     color: #fff;
 

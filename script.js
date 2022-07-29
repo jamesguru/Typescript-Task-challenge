@@ -48,6 +48,8 @@ var PendingTasks = /** @class */ (function () {
         tasks.splice(deleteId, 1);
         localStorage.setItem("task-list", JSON.stringify(tasks));
         this.showTasks("all");
+        console.log("item deleted");
+        this.showTasks("all");
     };
     PendingTasks.prototype.updateStatus = function (selectedItem) {
         console.log("updating thiis");
@@ -55,21 +57,23 @@ var PendingTasks = /** @class */ (function () {
         var id = selectedItem.id.split("")[0];
         if (selectedItem.checked) {
             taskName.classList.add("checked");
-            tasks[id].status = "completed";
+            this.tasks[id].status = "completed";
         }
         else {
             taskName.classList.remove("checked");
-            tasks[id].status = "pending";
+            this.tasks[id].status = "pending";
         }
         localStorage.setItem("task-list", JSON.stringify(tasks));
+        console.log("status updated");
+        this.showTasks("all");
     };
     PendingTasks.prototype.showTasks = function (filter) {
         var li = "";
         if (tasks) {
             tasks.forEach(function (task, id) {
                 var isCompleted = task.status == "completed" ? "checked" : "";
-                if (filter == task.status || filter == "all") {
-                    li += "\n      \n    \n          \n      \n            <li class=\"task\">\n      \n                    <label for=\"".concat(id, "\">\n      \n      \n                    \n                    \n                    <input onclick = \"this.updateStatus(this)\" type=\"checkbox\" id=\"").concat(id, " class=\"input-checkbox\">\n      \n                     <p class=\"").concat(isCompleted, "\">").concat(task.title, "</p>\n      \n      \n                    \n                    </label>\n      \n      \n                 \n      \n                  \n                    <button class=\"update\" onclick = \"this.updateTask(").concat(id, ")\" >Update</button>\n      \n      \n                   <button class=\"delete\" onclick = \"this.deleteTask(").concat(id, ")\">Delete</button>\n      \n                    \n      \n                    \n      \n                   \n                </li>\n       \n            ");
+                if (filter == "pending" || filter == "all") {
+                    li += "\n      \n    \n          \n      \n            <li class=\"task\">\n      \n                    <label for=\"".concat(id, "\">\n      \n      \n                    \n                    \n                    <input onclick = \"() => this.updateStatus(this)\" type=\"checkbox\" id=\"").concat(id, " class=\"input-checkbox\">\n      \n                     <p class=\"").concat(isCompleted, "\">").concat(task.title, "</p>\n      \n      \n                    \n                    </label>\n      \n      \n                 \n      \n                  \n                    <button class=\"update\" onclick = \"() => this.updateTask(").concat(id, ")\" >Update</button>\n      \n      \n                   <button class=\"delete\" onclick = \"() => this.deleteTask(").concat(id, ")\">Delete</button>\n      \n                    \n      \n                    \n      \n                   \n                </li>\n       \n            ");
                 }
             });
         }
@@ -82,12 +86,12 @@ var completedTask = /** @class */ (function (_super) {
     function completedTask() {
         return _super.call(this, tasks) || this;
     }
-    completedTask.prototype.showTasks = function (filter) {
+    completedTask.prototype.showTasks = function (completed) {
         var li = "";
         if (tasks) {
             tasks.forEach(function (task, id) {
                 var isCompleted = task.status == "completed" ? "checked" : "";
-                if (filter == task.status || filter == "all") {
+                if (completed == "completed" || completed == "all") {
                     li += "\n    \n  \n        \n    \n          <li class=\"task\">\n    \n                  <label for=\"".concat(id, "\">\n    \n    \n                  \n                  \n                  <input type=\"checkbox\" id=\"").concat(id, " class=\"input-checkbox\">\n    \n                   <p class=\"").concat(isCompleted, "\">").concat(task.title, "</p>\n    \n    \n                  \n                  </label>\n    \n    \n                 <button class=\"delete\" onclick = \"this.deleteTask(").concat(id, ")\">Delete</button>\n    \n                  \n    \n                  \n    \n                 \n              </li>\n     \n          ");
                 }
             });
@@ -114,12 +118,14 @@ addButton.addEventListener("click", function () {
         if (!tasks) {
             tasks = [];
         }
+        var differenceinTime = differenceInTime(taskDate.value, taskDate1.value);
         var newTask = {
             title: taskTitle.value,
             desc: taskdesc.value,
             date: taskDate.value,
             deadline: taskDate1.value,
-            status: "pending"
+            status: "pending",
+            diff: differenceInTime
         };
         tasks.push(newTask);
         localStorage.setItem("task-list", JSON.stringify(tasks));
@@ -149,3 +155,12 @@ clearButton.addEventListener("click", function () {
     unfinishedTask.showTasks("all");
     finishedTask.showTasks("all");
 });
+var differenceInTime = function (date, deadline) {
+    var date1 = new Date("".concat(date));
+    var date2 = new Date("".concat(deadline));
+    // To calculate the time difference of two dates
+    var Difference_In_Time = date2.getTime() - date1.getTime();
+    // To calculate the no. of days between two dates
+    var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+    return Difference_In_Days;
+};
